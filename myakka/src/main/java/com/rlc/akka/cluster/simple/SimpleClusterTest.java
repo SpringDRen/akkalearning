@@ -13,7 +13,7 @@ public class SimpleClusterTest {
 
     public static void main(String[] args) {
         if (args.length == 0)
-            startup(new String[] { "2551", "2552", "0" });
+            startup(new String[] { "2553", "2551", "2552" });
         else
             startup(args);
     }
@@ -23,7 +23,7 @@ public class SimpleClusterTest {
             // Override the configuration of the port
             Config config = ConfigFactory.parseString(
                     "akka.remote.netty.tcp.port=" + port).withFallback(
-                    ConfigFactory.load("akka"));
+                    ConfigFactory.load("simple"));
 
             // Create an Akka system
             ActorSystem system = ActorSystem.create("ClusterSystem", config);
@@ -31,6 +31,13 @@ public class SimpleClusterTest {
             // Create an actor that handles cluster domain events
             system.actorOf(Props.create(SimpleClusterListener.class),
                     "clusterListener");
+
+            //不按照seed nodes配置的顺序启动，无法加入集群，必须等到配置的第一个seed nodes启动会才可以
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
         }
     }

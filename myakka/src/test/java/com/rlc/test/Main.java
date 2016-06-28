@@ -48,6 +48,8 @@ public class Main {
                     + "([0-9\\.]*)"//([0-9\.]*)  最后一个字段  IP 16
             ;
 
+    private static final String patterRulesMp4 = "_\\d{8}_\\d{1}_\\d{1}_(\\d+).mp4";
+
     /**
      * 读取文件
      *
@@ -143,11 +145,21 @@ public class Main {
 //                "\"122.143.15.200,122.139.204.191\" \"143845815\" 1120 \"HIT\" 122.143.15.198";
 
 //        readFile("C:\\Users\\renlc\\Desktop\\licun.log");
-        parseLog("C:\\Users\\renlc\\Desktop\\licun.log");
 
+//        parseLog("C:\\Users\\renlc\\Desktop\\licun.log");
+//
+//
+//        String s = "183.204.23.222 - - [01/Feb/2016:21:57:46 +0800] \"GET pcvideogs.titan.mgtv.com/mp4/2016/dongman/wpys_18621/6E80A1C252F7C9CC766BADEF61AF7867_20160106_1_1_386.mp4/10000_20000_v01_mp4.t/pcvideogs.titan.mgtv.com/mp4/2016/dongman/wpys_18621/6E80A1C252F7C9CC766BADEF61AF7867_20160106_1_1_386.mp4/10000_20000_v01_mp4.ts?t=56afd25e&ver5e&ver=0x03&pno=102130207c6b83ea45e3c953e8be33082bac&nid=25012&urgid=2819&payload=usertoken%3Duuid%3D0d01d162fa5a4d968c8a4fb2b0e240e2%5Eruip%3D3083605982%5Ehit%3D0&win=300&limitrate=0&rdur=21600&arange=0&srgids=25012&fid=6E80A1C252F7C9CC766BADEF61AF7867&uuid=0d01d162fa5a4d968c8a4fb2b0e240e2&srgid=25012 HTTP/1.1\" 403 357 162 0 \"bytes=0-\" \"-\" \"Mozilla/5.0 (Linux; U; Android 4.3; zh-CN; Coolpad 8720L Build/JSS15Q) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 UCBrowser/10.9.2.712 U3/0.8.0 Mobile Safari/534.30\" \"183.204.23.222\" \"66106071\" 102130207c6b83ea45e3c953e8be33082bac \"DISPATCH_INIT\" 111.7.165.142";
+//        pattern(s);
 
-        String s = "183.204.23.222 - - [01/Feb/2016:21:57:46 +0800] \"GET pcvideogs.titan.mgtv.com/mp4/2016/dongman/wpys_18621/6E80A1C252F7C9CC766BADEF61AF7867_20160106_1_1_386.mp4/10000_20000_v01_mp4.t/pcvideogs.titan.mgtv.com/mp4/2016/dongman/wpys_18621/6E80A1C252F7C9CC766BADEF61AF7867_20160106_1_1_386.mp4/10000_20000_v01_mp4.ts?t=56afd25e&ver5e&ver=0x03&pno=102130207c6b83ea45e3c953e8be33082bac&nid=25012&urgid=2819&payload=usertoken%3Duuid%3D0d01d162fa5a4d968c8a4fb2b0e240e2%5Eruip%3D3083605982%5Ehit%3D0&win=300&limitrate=0&rdur=21600&arange=0&srgids=25012&fid=6E80A1C252F7C9CC766BADEF61AF7867&uuid=0d01d162fa5a4d968c8a4fb2b0e240e2&srgid=25012 HTTP/1.1\" 403 357 162 0 \"bytes=0-\" \"-\" \"Mozilla/5.0 (Linux; U; Android 4.3; zh-CN; Coolpad 8720L Build/JSS15Q) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 UCBrowser/10.9.2.712 U3/0.8.0 Mobile Safari/534.30\" \"183.204.23.222\" \"66106071\" 102130207c6b83ea45e3c953e8be33082bac \"DISPATCH_INIT\" 111.7.165.142";
-        pattern(s);
+        String s = "51F874A570BB045F07F27A6BE82B493A_20160601_1_1_386.mp4";
+        Pattern pattern = Pattern.compile(patterRulesMp4);
+        Matcher matcher = pattern.matcher(s);
+        while (matcher.find()) {
+            for (int i = 0; i <= matcher.groupCount(); i++) {
+                System.out.println(i + ":" + matcher.group(i));
+            }
+        }
 
     }
 }

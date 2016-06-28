@@ -10,6 +10,9 @@ import akka.cluster.ClusterEvent.UnreachableMember;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 
+/**
+ * 监听集群成员状态
+ */
 public class SimpleClusterListener extends UntypedActor {
     LoggingAdapter log = Logging.getLogger(getContext().system(), this);
     Cluster cluster = Cluster.get(getContext().system());
@@ -18,6 +21,7 @@ public class SimpleClusterListener extends UntypedActor {
     @Override
     public void preStart() {
         //#subscribe
+        //订阅成员事件
         cluster.subscribe(getSelf(), ClusterEvent.initialStateAsEvents(),
                 MemberEvent.class, UnreachableMember.class);
         //#subscribe
@@ -31,7 +35,6 @@ public class SimpleClusterListener extends UntypedActor {
 
     @Override
     public void onReceive(Object message) {
-        System.out.println("1111----" + message);
         if (message instanceof MemberUp) {
             MemberUp mUp = (MemberUp) message;
             log.info("Member is Up: {}", mUp.member());
