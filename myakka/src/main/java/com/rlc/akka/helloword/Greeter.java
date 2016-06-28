@@ -2,6 +2,9 @@ package com.rlc.akka.helloword;
 
 import akka.actor.UntypedActor;
 
+/**
+ * 完成输出HelloWorld的Actor
+ */
 public class Greeter extends UntypedActor {
 
     public static enum Msg {

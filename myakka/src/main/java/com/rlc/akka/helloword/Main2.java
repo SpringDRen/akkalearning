@@ -34,6 +34,7 @@ public class Main2 {
         @Override
         public void onReceive(Object msg) {
             if (msg instanceof Terminated) {
+                //接受到对应Actor的停止消息后，终止system
                 Terminated t = Terminated.class.cast(msg);
                 System.out.println(t.toString());
                 log.info("{} has terminated, shutting down system", ref.path());

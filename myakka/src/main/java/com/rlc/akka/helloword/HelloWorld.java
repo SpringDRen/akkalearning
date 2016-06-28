@@ -6,6 +6,9 @@ import akka.actor.UntypedActor;
 import akka.actor.ActorRef;
 import scala.collection.immutable.Iterable;
 
+/**
+ * HelloWorld管理节点，任务完成后停止对应的Actor
+ */
 public class HelloWorld extends UntypedActor {
 
     @Override
