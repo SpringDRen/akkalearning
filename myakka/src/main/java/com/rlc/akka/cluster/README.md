@@ -1,6 +1,6 @@
 #Networking
 
-网络及集群
+网络及集群  
 
 ##1. Cluster Specification
 [文档链接](http://doc.akka.io/docs/akka/2.4.7/common/cluster.html)  
@@ -8,10 +8,11 @@
 
 ###Seed Nodes
 Seed Nodes是新节点加入集群的配置入口。当一个新节点启动时，会向所有的seed nodes发送消息，然后会向第一个回应的seed node发送join命令。  
-seed nodes的配置对于集群的正常运行并没有任何影响，它只与新节点加入集群有关，它帮助新节点找到向集群发送join命令的接入点，新成员可以向集群里的任意当前有效的成员发送此命令，不仅仅是seed nodes。
+seed nodes的配置对于集群的正常运行并没有任何影响，它只与新节点加入集群有关，它帮助新节点找到向集群发送join命令的接入点，新成员可以向集群里的任意当前有效的成员发送此命令，不仅仅是seed nodes。  
 
 ##2. Cluster Usage
 [文档链接](http://doc.akka.io/docs/akka/2.4.7/java/cluster-usage.html)  
+代码示例[Akka Cluster Samples with Java](http://www.lightbend.com/activator/template/akka-sample-cluster-java)  
 ###maven配置
 ```xml
 <dependency>
@@ -23,10 +24,9 @@ seed nodes的配置对于集群的正常运行并没有任何影响，它只与�
 ###A Simple Cluster Example
 一个简单的集群示例：[点击这里](https://github.com/SpringDRen/akkalearning/tree/master/myakka/src/main/java/com/rlc/akka/cluster/simple)
   
-####Joining to Seed Nodes
+###Joining to Seed Nodes
 你需要确定加入集群的方式，是手动或者自动配置初始连接点，即所谓的seed nodes。当一个新节点启动时，它会向所有的seed nodes发送消息，然后向最先响应的节点发送join命令。如果没有一个seed nodes响应（也许是还未启动），将重复此流程直至成功或者系统关闭。  
   
-
 seed nodes可以以任意顺序启动，而且不需要所有的seed nodes都运行起来，但是当初始化一个集群时，`seed-nodes`配置列表中的第一个节点必须先启动，否则其他seed-nodes无法完成初始化，其他节点也不能加入到集群中来。第一个seed nodes特殊设计的原因是避免从一个空集群启动时会形成separated islands。最快的方式是在同一时间启动所有的seed nodes（顺序无所谓），否则需要等到配置的`seed-node-timeout`时间后，其他节点才能加入。  
   
 超过2个seed nodes启动后，关闭第一个seed node不会有影响。当第一个seed node重启后，它会首先向现在集群中存活的seed nodes发送join命令。  
@@ -41,4 +41,14 @@ seed nodes可以以任意顺序启动，而且不需要所有的seed nodes都运
   
 >集群中所有的ActorSystem的name必须相同。name是在ActorSystem启动的时候初始化的。  
   
-。。。。
+。。。。  
+.  
+.  
+.  
+###Cluster Aware Routers
+所有的路由应该能找到集群里的所有成员，即部署新路线或者找到新路线到集群上的某个节点。当节点变为不可到达状态或者是离开集群，到该节点的路线应该自动从路由里移除。当新节点加入集群时，新的路线会按照配置加入到路由里。当一个状态为不可到达的节点重新变为可到达状态，路线也会自动添加到路由里。  
+集群路由器可以使用状态为WeaklyUp的节点，如果配置允许的话。  
+有两种不同的路由器：  
+
+- **Group - 使用actor selection向特定的路线发送消息** 路线可以被集群里不同节点里的路由共享。这种路由用法的一个典型例子是，运行在集群里后端节点的服务会被前端节点的routers调用。  
+- **Pool - 11** 试试

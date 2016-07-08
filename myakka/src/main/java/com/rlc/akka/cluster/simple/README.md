@@ -24,7 +24,7 @@
 不按照seed nodes的配置启动，必须等到seed nodes list里配置的第一个2551节点起来，先启动的两个节点才能加入集群  
 
 ###2、启动之后关闭seed nodes
-依然使用java命令分别启动3个节点。  
+依然分别启动3个节点。  
 使用jconsole，打开启动的2551跟2552节点，使用akka提供的MBean，向`akka.tcp://ClusterSystem@127.0.0.1:2553`发送leave命令，移除集群里2551、2552节点。或者是直接关闭对应的jvm。  
 然后启动2666节点`java SimpleClusterTest2`，向2553节点发送join命令，加入集群成功。  
 启动成功后，移除两个配置的seed nodes，其他节点依然可以向现有集群中的其他节点发送join命令加入集群。  
@@ -37,7 +37,7 @@
 启动之后输出  
 >No seed-nodes configured, manual cluster join required
   
-使用jconso，打开2666节点，使用MBean里的join命令，将自己加入集群`akka.tcp://ClusterSystem@127.0.0.1:2666`。  
+使用jconsole，打开2666节点，使用MBean里的join命令，将自己加入集群`akka.tcp://ClusterSystem@127.0.0.1:2666`。  
 方法调用成功，输出：  
 >Node [akka.tcp://ClusterSystem@127.0.0.1:2666] is JOINING, roles []
 Leader is moving node [akka.tcp://ClusterSystem@127.0.0.1:2666] to [Up]

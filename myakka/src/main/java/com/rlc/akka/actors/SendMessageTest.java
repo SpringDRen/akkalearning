@@ -8,12 +8,14 @@ import akka.dispatch.OnSuccess;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.pattern.Patterns;
+import scala.Function1;
 import scala.concurrent.Await;
 import scala.concurrent.Future;
 import scala.concurrent.duration.Duration;
 import akka.dispatch.Futures;
 import akka.dispatch.Mapper;
 import akka.util.Timeout;
+import scala.runtime.BoxedUnit;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -115,7 +117,7 @@ public class SendMessageTest {
                     }
                 }, system.dispatcher());
         //将结果发送给C
-        pipe(transformed, system.dispatcher()).to(actorC);
+        //pipe(transformed, system.dispatcher()).to(actorC);
         //或者直接使用回调函数
         transformed.onSuccess(new OnSuccess<Result>(){
 
@@ -161,17 +163,23 @@ public class SendMessageTest {
                 return "Hello " + "World";
             }
         }, system.dispatcher());
-        f.onSuccess(new PrintResult<String>(), system.dispatcher());
+//        f.onSuccess(new PrintResult<String>(), system.dispatcher());
+        f.onSuccess(new OnSuccess<String>() {
+            @Override
+            public void onSuccess(String result) throws Throwable {
+                System.out.println("result:" + result);
+            }
+        }, system.dispatcher());
         System.out.println("不会阻塞");
 
         system.terminate();
     }
 
-     static class PrintResult<T> extends OnSuccess<T> {
-        @Override public final void onSuccess(T t) {
-            System.out.println(t);
-        }
-    }
+//     static class PrintResult<T> extends OnSuccess<T> {
+//        @Override public final void onSuccess(T t) {
+//            System.out.println("result:" + t);
+//        }
+//    }
 
 
 }

@@ -40,6 +40,8 @@ public class MetricsListener extends UntypedActor {
     	ClusterMetricsChanged clusterMetrics = (ClusterMetricsChanged) message;
       for (NodeMetrics nodeMetrics : clusterMetrics.getNodeMetrics()) {
         if (nodeMetrics.address().equals(cluster.selfAddress())) {
+          System.out.println(nodeMetrics.address());
+          System.out.println(nodeMetrics);
           logHeap(nodeMetrics);
           logCpu(nodeMetrics);
         }

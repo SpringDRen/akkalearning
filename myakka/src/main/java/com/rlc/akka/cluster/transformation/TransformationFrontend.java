@@ -38,10 +38,12 @@ public class TransformationFrontend extends UntypedActor {
 
         } else if (message.equals(BACKEND_REGISTRATION)) {
             getContext().watch(getSender());
+            log.info(getSender() + " is added.....");
             backends.add(getSender());
 
         } else if (message instanceof Terminated) {
             Terminated terminated = (Terminated) message;
+            log.info(terminated.getActor() + " is terminated.....");
             backends.remove(terminated.getActor());
 
         } else {

@@ -34,6 +34,7 @@ public class FactorialFrontend extends UntypedActor {
   public void onReceive(Object message) {
     if (message instanceof FactorialResult) {
       FactorialResult result = (FactorialResult) message;
+      log.info("{}! = {}", result.n, result.factorial);
       if (result.n == upToN) {
         log.info("{}! = {}", result.n, result.factorial);
         if (repeat)
